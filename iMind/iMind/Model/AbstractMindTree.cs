@@ -8,16 +8,21 @@ using System.Threading.Tasks;
 
 namespace PowerMind.Model
 {
-    abstract class AbstractMindNode
+    abstract class AbstractMindTree
     {
         // 二叉树根节点
-        protected BiTreeNode root;
+        protected IBiTree<String> root;
 
         // 构造函数
-        public AbstractMindNode(String type)
+        public AbstractMindTree(String type)
         {
             this.type = type;
-            root = new BiTreeNode();
+        }
+
+        protected AbstractMindTree(String type, IBiTree<String> root)
+        {
+            this.type = type;
+            this.root = root;
         }
 
         #region 字段、属性

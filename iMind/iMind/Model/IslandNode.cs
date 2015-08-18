@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace PowerMind.Model
 {
-    class IslandNode : AbstractMindNode
+    class IslandNode : AbstractMindTree
     {
         // 获取主题
-        public AbstractMindNode GetTheme()
+        public AbstractMindTree GetTheme()
         {
-            this.root
+            return this.root.Text;
         }
     }
 }

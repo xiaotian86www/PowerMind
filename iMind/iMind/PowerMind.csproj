@@ -51,9 +51,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\Base\IBiTreeNode.cs" />
-    <Compile Include="Model\Base\BiTreeNode.cs" />
-    <Compile Include="Model\AbstractMindNode.cs" />
+    <Compile Include="Model\Base\IBiTree.cs" />
+    <Compile Include="Model\Base\BiTree.cs" />
+    <Compile Include="Model\AbstractMindTree.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

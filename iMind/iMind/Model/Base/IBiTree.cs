@@ -7,21 +7,25 @@ using System.Threading.Tasks;
 
 namespace PowerMind.Model.Base
 {
-    interface IBiTreeNode : IEnumerable<IBiTreeNode>
+    interface IBiTree<T> : IEnumerable<IBiTree<T>>
     {
-        // 获取id标识
-        UInt32 Id { get; }
+        // text读写属性
+        T Content
+        {
+            get;
+            set;
+        }
 
         // 插入子节点
-        void InsertChild(IBiTreeNode child);
+        void InsertChild(IBiTree<T> child);
 
         // 删除子节点
-        void DeleteChild(UInt32 id);
+        void DeleteChild(IBiTree<T> child);
 
         // 获取父节点
-        IBiTreeNode GetParent();
+        IBiTree<T> GetParent();
 
         // 获取子节点
-        List<IBiTreeNode> GetChildren();
+        List<IBiTree<T>> GetChildren();
     }
 }
