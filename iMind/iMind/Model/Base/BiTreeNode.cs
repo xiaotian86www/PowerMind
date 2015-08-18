@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PowerMind
+namespace PowerMind.Model.Base
 {
     class BiTreeNode : IBiTreeNode
     {
@@ -26,12 +26,6 @@ namespace PowerMind
         // 构造函数
         public BiTreeNode()
         {
-            id = ++sId;
-        }
-
-        public BiTreeNode(BiTreeNode parentNode)
-        {
-            this.parent = parentNode;
             id = ++sId;
         }
 
@@ -85,6 +79,18 @@ namespace PowerMind
                 }
             }
         }
+
+        // 获取父节点
+        public IBiTreeNode GetParent()
+        {
+            return parent;
+        }
+
+        //// 获取子节点
+        //public List<IBiTreeNode> GetChildren()
+        //{
+        //    List<IBiTreeNode> children = new List<IBiTreeNode>();
+        //}
         #endregion
 
         #region 先序遍历,实现IEnumerable接口

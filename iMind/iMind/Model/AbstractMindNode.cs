@@ -1,29 +1,28 @@
-﻿using System;
+﻿using PowerMind.Model.Base;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PowerMind
-{   
-    // 节点类型枚举
-    enum MindNodeOfType { Bridge, Island }
-
-    // 节点形状枚举
-    enum MindNodeOfShape { Rectangle, ellipse }
-
-    abstract class AbstractMindNode : BiTreeNode
+namespace PowerMind.Model
+{
+    abstract class AbstractMindNode
     {
+        // 二叉树根节点
+        protected BiTreeNode root;
+
         // 构造函数
-        public AbstractMindNode(MindNodeOfType type)
+        public AbstractMindNode(String type)
         {
             this.type = type;
+            root = new BiTreeNode();
         }
 
         #region 字段、属性
         // 节点类型
-        private MindNodeOfType type;
+        private String type;
 
         // 节点名
         private String title;
@@ -32,10 +31,10 @@ namespace PowerMind
         private Color color;
 
         // 节点形状
-        private MindNodeOfShape shape;
+        private String shape;
 
         // Type只读属性
-        public MindNodeOfType Type
+        public String Type
         {
             get { return type; }
         }
@@ -55,7 +54,7 @@ namespace PowerMind
         }
 
         // Shape读写属性
-        public MindNodeOfShape Shape
+        public String Shape
         {
             get { return shape; }
             set { this.shape = value; }
