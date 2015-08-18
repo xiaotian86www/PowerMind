@@ -7,7 +7,7 @@
     <ProjectGuid>{75B4B854-4CC2-4E8D-8483-F5E72CBF466F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>iMind</RootNamespace>
+    <RootNamespace>PowerMind</RootNamespace>
     <AssemblyName>iMind</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -52,6 +52,7 @@
     </Compile>
     <Compile Include="IBiTreeNode.cs" />
     <Compile Include="BiTreeNode.cs" />
+    <Compile Include="AbstractMindNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -62,6 +63,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

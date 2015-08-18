@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace iMind
+namespace PowerMind
 {
     class BiTreeNode : IBiTreeNode
     {
@@ -24,21 +24,22 @@ namespace iMind
         private BiTreeNode child;
 
         // 构造函数
-        BiTreeNode()
+        public BiTreeNode()
         {
             id = ++sId;
         }
 
-        BiTreeNode(BiTreeNode parentNode)
+        public BiTreeNode(BiTreeNode parentNode)
         {
             this.parent = parentNode;
             id = ++sId;
         }
 
-        // 获取id
-        public UInt32 GetId()
+        #region 二叉树标准操作
+        // Id可读属性
+        public UInt32 Id
         {
-            return id;
+            get { return id; }
         }
 
         // 插入子节点
@@ -75,7 +76,7 @@ namespace iMind
                     continue;
                 }
 
-                if (node.GetId() == id)
+                if (node.id == id)
                 {
                     if (node.parent == prior)
                         prior.child = node.brother;
@@ -84,8 +85,10 @@ namespace iMind
                 }
             }
         }
+        #endregion
 
-        #region 先序遍历
+        #region 先序遍历,实现IEnumerable接口
+        //  递归遍历
         protected IEnumerable<IBiTreeNode> Traverse()
         {
             yield return this;

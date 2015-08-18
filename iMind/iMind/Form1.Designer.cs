@@ -1,4 +1,4 @@
-﻿namespace iMind
+﻿namespace PowerMind
 {
     partial class Form1
     {
