@@ -116,7 +116,7 @@ namespace PowerMind.Model.Base
                     yield return tchild;
 
             if (null != this.brother)
-                foreach (BiTree<T> tchild in this.brother.Traverse())
+                foreach (IBiTree<T> tchild in this.brother.Traverse())
                     yield return tchild;
         }
 

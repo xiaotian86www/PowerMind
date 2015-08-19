@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PowerMind.Model.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,21 @@ namespace PowerMind.Model
         // 获取主题
         public AbstractMindTree GetTheme()
         {
-            return this.root.Text;
+            return this.tree.GetParent().Content;
+        }
+
+        // 获取话题
+        public List<AbstractMindTree> GetSubtopics()
+        {
+            List<AbstractMindTree>  subtopics = new List<AbstractMindTree>();
+            List<IBiTree<AbstractMindTree>> children = this.tree.GetChildren();
+
+            foreach(IBiTree<AbstractMindTree> tchild in children)
+            {
+                subtopics.Add(tchild.Content);
+            }
+
+            return subtopics;
         }
     }
 }

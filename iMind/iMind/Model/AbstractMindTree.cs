@@ -11,7 +11,7 @@ namespace PowerMind.Model
     abstract class AbstractMindTree
     {
         // 二叉树根节点
-        protected IBiTree<String> root;
+        protected IBiTree<AbstractMindTree> tree;
 
         // 构造函数
         public AbstractMindTree(String type)
@@ -19,18 +19,12 @@ namespace PowerMind.Model
             this.type = type;
         }
 
-        protected AbstractMindTree(String type, IBiTree<String> root)
-        {
-            this.type = type;
-            this.root = root;
-        }
-
         #region 字段、属性
         // 节点类型
         private String type;
 
         // 节点名
-        private String title;
+        private String key;
 
         // 节点颜色
         private Color color;
@@ -45,10 +39,10 @@ namespace PowerMind.Model
         }
 
         // Title读写属性
-        public string Title
+        public string Key
         {
-            get { return title; }
-            set { this.title = value; }
+            get { return key; }
+            set { this.key = value; }
         }
 
         // Color读写属性
