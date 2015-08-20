@@ -23,7 +23,12 @@ namespace PowerMind.Model.Base
         // 构造函数
         public BiTree()
         {
+            
+        }
 
+        public BiTree(T content)
+        {
+            this.content = content;
         }
 
         #region 二叉树基本操作

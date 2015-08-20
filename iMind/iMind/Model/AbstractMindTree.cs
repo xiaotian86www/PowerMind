@@ -17,6 +17,8 @@ namespace PowerMind.Model
         public AbstractMindTree(String type)
         {
             this.type = type;
+            this.tree = new BiTree<AbstractMindTree>();
+            this.tree.Content = this;
         }
 
         #region 字段、属性
