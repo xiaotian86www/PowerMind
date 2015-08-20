@@ -1,12 +1,13 @@
-﻿using System;
+﻿using PowerMind.Context.Base.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PowerMind.Model.Base
+namespace PowerMind.Context.Base
 {
-    class BiTree<T> : IBiTree<T>
+    class BiTree<T> : ITree<T>
     {
         // 文本
         private T content;
@@ -33,14 +34,14 @@ namespace PowerMind.Model.Base
 
         #region 二叉树基本操作
         // Text读写属性
-        public T Text
+        public T Content
         {
             get { return this.content; }
             set { this.content = value; }
         }
 
         // 插入子节点
-        public void InsertChild(IBiTree<T> child)
+        public void InsertChild(ITree<T> child)
         {
             BiTree<T> tchild = (BiTree<T>)child;
             tchild.parent = this;
@@ -61,7 +62,7 @@ namespace PowerMind.Model.Base
         }
 
         // 删除子节点
-        public void DeleteChild(IBiTree<T> child)
+        public void DeleteChild(ITree<T> child)
         {
             BiTree<T> prior = null;
 
@@ -84,15 +85,15 @@ namespace PowerMind.Model.Base
         }
 
         // 获取父节点
-        public IBiTree<T> GetParent()
+        public ITree<T> GetParent()
         {
             return this.parent;
         }
 
         // 获取子节点
-        public List<IBiTree<T>> GetChildren()
+        public List<ITree<T>> GetChildren()
         {
-            List<IBiTree<T>> children = new List<IBiTree<T>>();
+            List<ITree<T>> children = new List<ITree<T>>();
 
             if (null != this.child)
             {
@@ -112,22 +113,22 @@ namespace PowerMind.Model.Base
 
         #region 先序遍历,实现IEnumerable接口
         //  递归遍历
-        protected IEnumerable<IBiTree<T>> Traverse()
+        protected IEnumerable<ITree<T>> Traverse()
         {
             yield return this;
 
             if (null != this.child)
-                foreach (IBiTree<T> tchild in this.child.Traverse())
+                foreach (ITree<T> tchild in this.child.Traverse())
                     yield return tchild;
 
             if (null != this.brother)
-                foreach (IBiTree<T> tchild in this.brother.Traverse())
+                foreach (ITree<T> tchild in this.brother.Traverse())
                     yield return tchild;
         }
 
-        public IEnumerator<IBiTree<T>> GetEnumerator()
+        public IEnumerator<ITree<T>> GetEnumerator()
         {
-            foreach (IBiTree<T> tnode in this.Traverse())
+            foreach (ITree<T> tnode in this.Traverse())
                 yield return tnode;
         }
 

@@ -1,4 +1,4 @@
-﻿using PowerMind.Model.Base;
+﻿using PowerMind.Context.Base;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PowerMind.Model
+namespace PowerMind.Context
 {
     abstract class AbstractMindTree
     {
         // 二叉树根节点
-        protected IBiTree<AbstractMindTree> tree;
+        protected ITree<AbstractMindTree> tree;
 
         // 构造函数
         public AbstractMindTree(String type)

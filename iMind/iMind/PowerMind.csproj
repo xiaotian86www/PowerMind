@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context\Base\InitFile.cs" />
     <Compile Include="Model\IslandNode.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -51,8 +52,8 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\Base\IBiTree.cs" />
-    <Compile Include="Model\Base\BiTree.cs" />
+    <Compile Include="Context\Base\Interface\ITree.cs" />
+    <Compile Include="Context\Base\BiTree.cs" />
     <Compile Include="Model\AbstractMindTree.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,7 +81,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Context\Base\" />
+    <Folder Include="Model\Base\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,11 +1,11 @@
-﻿using PowerMind.Model.Base;
+﻿using PowerMind.Context.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PowerMind.Model
+namespace PowerMind.Context
 {
     class IslandNode : AbstractMindTree
     {
@@ -19,9 +19,9 @@ namespace PowerMind.Model
         public List<AbstractMindTree> GetSubtopics()
         {
             List<AbstractMindTree>  subtopics = new List<AbstractMindTree>();
-            List<IBiTree<AbstractMindTree>> children = this.tree.GetChildren();
+            List<ITree<AbstractMindTree>> children = this.tree.GetChildren();
 
-            foreach(IBiTree<AbstractMindTree> tchild in children)
+            foreach(ITree<AbstractMindTree> tchild in children)
             {
                 subtopics.Add(tchild.Content);
             }

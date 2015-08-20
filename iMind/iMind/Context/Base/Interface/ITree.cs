@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PowerMind.Model.Base
+namespace PowerMind.Context.Base.Interface
 {
-    interface IBiTree<T> : IEnumerable<IBiTree<T>>
+    interface ITree<T> : IEnumerable<ITree<T>>
     {
         // text读写属性
         T Content
@@ -17,15 +17,15 @@ namespace PowerMind.Model.Base
         }
 
         // 插入子节点
-        void InsertChild(IBiTree<T> child);
+        void InsertChild(ITree<T> child);
 
         // 删除子节点
-        void DeleteChild(IBiTree<T> child);
+        void DeleteChild(ITree<T> child);
 
         // 获取父节点
-        IBiTree<T> GetParent();
+        ITree<T> GetParent();
 
         // 获取子节点
-        List<IBiTree<T>> GetChildren();
+        List<ITree<T>> GetChildren();
     }
 }
