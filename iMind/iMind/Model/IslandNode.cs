@@ -1,4 +1,5 @@
 ﻿using PowerMind.Context.Base;
+using PowerMind.Context.Base.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
