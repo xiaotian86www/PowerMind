@@ -1,12 +1,13 @@
-﻿using PowerMind.Context.Base;
+﻿using Comm.Tree;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PowerMind.Context
+namespace PowerMind.Model
 {
     abstract class AbstractMindTree
     {
@@ -14,11 +15,12 @@ namespace PowerMind.Context
         protected ITree<AbstractMindTree> tree;
 
         // 构造函数
-        public AbstractMindTree(String type)
+        public AbstractMindTree()
         {
-            this.type = type;
-            this.tree = new BiTree<AbstractMindTree>();
-            this.tree.Content = this;
+            Assembly asse = Assembly.Load("BiTree");
+            Type tp = asse.GetType("Comm.Tree.BiTree`1[[" + typeof(AbstractMindTree).AssemblyQualifiedName + "]]");
+            this.tree = (ITree<AbstractMindTree>)Activator.CreateInstance(tp);
+            this.tree.Data = this;
         }
 
         #region 字段、属性
