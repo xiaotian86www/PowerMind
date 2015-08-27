@@ -39,13 +39,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Book.cs" />
+    <Compile Include="Core\Design\Design.cs" />
+    <Compile Include="Core\Design\IDesign.cs" />
     <Compile Include="Core\Factory\AbstractFactory.cs" />
     <Compile Include="Core\Factory\IFactory.cs" />
     <Compile Include="Core\Factory\SingletonFactory.cs" />
     <Compile Include="Core\Program.cs" />
-    <Compile Include="Core\Stone\AbstractStone.cs" />
-    <Compile Include="Core\Stone\IStone.cs" />
-    <Compile Include="Core\Stone\SingletonStone.cs" />
+    <Compile Include="Core\Product\AbstractProduct.cs" />
+    <Compile Include="Core\Product\IProduct.cs" />
+    <Compile Include="Core\Product\SingletonProduct.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

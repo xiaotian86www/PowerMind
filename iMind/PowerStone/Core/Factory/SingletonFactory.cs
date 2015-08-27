@@ -1,4 +1,4 @@
-﻿using PowerStone.Core.Stone;
+﻿using PowerStone.Core.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +9,19 @@ namespace PowerStone.Core.Factory
 {
     class SingletonFactory : AbstractFactory
     {
-        // 构造函数
-        public SingletonFactory(Type type)
-            : base(type)
-        { 
-        
-        }
-
-        public override IStone Create()
+        public override Object Stone
         {
-            SingletonStone stone = new SingletonStone();
-            stone.Stone = Activator.CreateInstance(this.Type);
-            return stone;
+            get
+            {
+                if (null == this.product)
+                {
+                    this.product = new SingletonProduct();
+                    Object stone = Activator.CreateInstance(this.design.Type);
+                    this.product.Stone = stone;
+                    return stone;
+                }
+                return this.product.Stone;
+            }
         }
     }
 }

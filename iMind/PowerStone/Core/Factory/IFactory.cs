@@ -1,5 +1,5 @@
 ﻿using System;
-using PowerStone.Core.Stone;
+using PowerStone.Core.Product;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +9,7 @@ namespace PowerStone.Core.Factory
 {
     interface IFactory
     {
-        // 类型
-        Type Type { get; set; }
-
         // 创建Stone
-        IStone Create();
+        Object Stone { get; }
     }
 }

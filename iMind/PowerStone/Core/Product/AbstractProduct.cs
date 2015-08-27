@@ -4,14 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PowerStone.Core.Stone
+namespace PowerStone.Core.Product
 {
-    class AbstractStone : IStone
+    class AbstractProduct : IProduct
     {
         // 原石
         public Object Stone { get; set; }
-
-        // 原石类型
-        public Type Type { get; set; }
     }
 }

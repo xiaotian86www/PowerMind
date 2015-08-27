@@ -1,4 +1,5 @@
-﻿using PowerStone.Core.Stone;
+﻿using PowerStone.Core.Design;
+using PowerStone.Core.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +10,12 @@ namespace PowerStone.Core.Factory
 {
     abstract class AbstractFactory : IFactory
     {
-        // 构造函数
-        public AbstractFactory(Type type)
-        {
-            this.Type = type;
-        }
+        // 原石
+        protected IProduct product;
 
-        // 属性
-        public Type Type { get; set; }
+        // 设计模板
+        protected IDesign design;
 
-        public abstract IStone Create();
+        public abstract Object Stone { get; }
     }
 }

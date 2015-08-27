@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PowerStone.Core.Stone
+namespace PowerStone.Core.Product
 {
-    class SingletonStone : AbstractStone
+    class SingletonProduct : AbstractProduct
     {
     }
 }
