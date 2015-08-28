@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace PowerStone.Core.Factory
 {
     interface IFactory
     {
-        // 创建Stone
+        // 获取Stone
         Object Stone { get; }
+
+        // 新建
+        void Singleton(XmlNode xml);
     }
 }

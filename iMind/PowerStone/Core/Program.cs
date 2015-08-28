@@ -15,7 +15,7 @@ namespace PowerStone.Core
             Type stoneType = Type.GetType("PowerStone.Book");
             Type factoryType = Type.GetType("PowerStone.Core.Factory." + "Singleton" + "Factory");
             IFactory factory = (IFactory)Activator.CreateInstance(factoryType, stoneType);
-            Object bk = factory.Create().Stone;
+            Object bk = factory.Singleton().Stone;
             PropertyInfo[] properties = stoneType.GetProperties();
             foreach (PropertyInfo property in properties)
             {

@@ -16,7 +16,7 @@ namespace PowerStone.Core.Factory
                 if (null == this.product)
                 {
                     this.product = new SingletonProduct();
-                    Object stone = Activator.CreateInstance(this.design.Type);
+                    Object stone = Activator.CreateInstance(this.design.Class);
                     this.product.Stone = stone;
                     return stone;
                 }

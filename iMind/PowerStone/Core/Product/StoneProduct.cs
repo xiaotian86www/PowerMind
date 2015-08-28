@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace PowerStone.Core.Product
 {
-    interface IProduct
+    class StoneProduct
     {
         // 原石
-        Object Stone { get; set; }
+        public Object Stone { get; set; }
     }
 }
