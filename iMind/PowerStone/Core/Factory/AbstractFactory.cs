@@ -1,5 +1,6 @@
 ﻿using PowerStone.Core.Design;
 using PowerStone.Core.Product;
+using PowerStone.Exception.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,15 +20,15 @@ namespace PowerStone.Core.Factory
 
         public abstract Object Stone { get; }
 
-
-        public void Singleton(XmlNode xml)
+        public StoneDesign Design 
         {
-            XmlNodeList nodes = xml.ChildNodes;
-
-            design = new StoneDesign();
-            foreach(XmlNode node in nodes)
+            set
             {
+                String typeName = this.GetType().Name;
+                if (!typeName.Equals(value.Mode + "Factory"))
+                    throw new FactoryNotMatchException();
 
+                this.design = value;
             }
         }
     }

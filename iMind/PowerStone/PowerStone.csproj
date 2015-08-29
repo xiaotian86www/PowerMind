@@ -46,6 +46,10 @@
     <Compile Include="Core\Factory\SingletonFactory.cs" />
     <Compile Include="Core\Program.cs" />
     <Compile Include="Core\Product\StoneProduct.cs" />
+    <Compile Include="Exception\Core\CoreException.cs" />
+    <Compile Include="Exception\Core\AttributeNotFoundException.cs" />
+    <Compile Include="Exception\Core\FactoryNotMatchException.cs" />
+    <Compile Include="Exception\Core\TypeNotFoundException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

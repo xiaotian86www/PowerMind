@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using PowerStone.Core.Design;
 
 namespace PowerStone.Core.Factory
 {
@@ -14,6 +15,6 @@ namespace PowerStone.Core.Factory
         Object Stone { get; }
 
         // 新建
-        void Singleton(XmlNode xml);
+        StoneDesign Design { set; }
     }
 }

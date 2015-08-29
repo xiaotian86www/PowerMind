@@ -1,4 +1,5 @@
-﻿using PowerStone.Core.Product;
+﻿using PowerStone.Core.Design;
+using PowerStone.Core.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,8 @@ namespace PowerStone.Core.Factory
             {
                 if (null == this.product)
                 {
-                    this.product = new SingletonProduct();
-                    Object stone = Activator.CreateInstance(this.design.Class);
+                    this.product = new StoneProduct();
+                    Object stone = Activator.CreateInstance(this.design.Type);
                     this.product.Stone = stone;
                     return stone;
                 }
