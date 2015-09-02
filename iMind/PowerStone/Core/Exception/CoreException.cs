@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PowerStone.Exception.Core
+namespace PowerStone.Core.Exception
 {
     class CoreException : ApplicationException
     {

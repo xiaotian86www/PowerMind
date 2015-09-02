@@ -1,6 +1,6 @@
 ﻿using PowerStone.Core.Design;
+using PowerStone.Core.Exception;
 using PowerStone.Core.Product;
-using PowerStone.Exception.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
