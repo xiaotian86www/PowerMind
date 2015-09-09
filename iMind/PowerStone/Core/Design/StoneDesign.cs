@@ -17,7 +17,10 @@ namespace PowerStone.Core.Design
         // 类类型
         public Type Type { get; set; }
 
-        // 实例化类型
+        // 实例化模式
         public String Mode { get; set; }
+
+        // dll文件名
+        public String Dll { get; set; }
     }
 }

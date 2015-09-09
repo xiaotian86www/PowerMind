@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <attr key="PowerStone.Core.DesignPath">design</attr>
+  <attr key="PowerStone.Core.StonePath">Stone</attr>
+</root>
