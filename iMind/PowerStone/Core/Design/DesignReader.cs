@@ -1,4 +1,4 @@
-﻿using PowerStone.Exception.Core;
+﻿using PowerStone.Core.Exception;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +16,12 @@ namespace PowerStone.Core.Design
             StoneDesign sd = new StoneDesign();
 
             XmlElement xmle = xmln as XmlElement;
+            if (null == xmle)
+                throw new XMLNodeNotFoundException();
 
             sd.Id = xmle.GetAttribute("id");
             if (null == sd.Id)
-                throw new AttributeNotFoundException("Id没有找到！");
+                throw new XMLAttributeNotFoundException("Id没有找到！");
 
             sd.Mode = xmle.GetAttribute("mode");
             if (null == sd.Mode)

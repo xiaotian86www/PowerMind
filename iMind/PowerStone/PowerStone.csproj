@@ -41,13 +41,14 @@
     <Compile Include="Context\FactoryContainer.cs" />
     <Compile Include="Core\Design\DesignReader.cs" />
     <Compile Include="Core\Design\StoneDesign.cs" />
+    <Compile Include="Core\Exception\XMLNodeNotFoundException.cs" />
     <Compile Include="Core\Factory\AbstractFactory.cs" />
     <Compile Include="Core\Factory\IFactory.cs" />
     <Compile Include="Core\Factory\SingletonFactory.cs" />
     <Compile Include="Core\Program.cs" />
     <Compile Include="Core\Product\StoneProduct.cs" />
     <Compile Include="Core\Exception\CoreException.cs" />
-    <Compile Include="Core\Exception\AttributeNotFoundException.cs" />
+    <Compile Include="Core\Exception\XMLAttributeNotFoundException.cs" />
     <Compile Include="Core\Exception\FactoryNotMatchException.cs" />
     <Compile Include="Core\Exception\TypeNotFoundException.cs" />
   </ItemGroup>
