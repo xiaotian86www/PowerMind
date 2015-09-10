@@ -48,8 +48,6 @@
     <Compile Include="Core\Factory\AbstractFactory.cs" />
     <Compile Include="Core\Factory\IFactory.cs" />
     <Compile Include="Core\Factory\SingletonFactory.cs" />
-    <Compile Include="Core\Factory\ThreadFactory.cs" />
-    <Compile Include="Core\Program.cs" />
     <Compile Include="Core\Product\StoneProduct.cs" />
     <Compile Include="Core\Exception\CoreException.cs" />
     <Compile Include="Core\Exception\XMLAttributeNotFoundException.cs" />

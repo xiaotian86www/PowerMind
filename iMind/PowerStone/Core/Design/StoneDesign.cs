@@ -11,9 +11,6 @@ namespace PowerStone.Core.Design
         // 全局id
         public String Id { get; set; }
 
-        // 属性
-        public Dictionary<String, String> Attributes { get; set; }
-
         // 类类型
         public String Type { get; set; }
 
@@ -23,7 +20,10 @@ namespace PowerStone.Core.Design
         // dll文件名
         public String Dll { get; set; }
 
-        // 线程数量
-        public int Num { get; set; }
+        // 属性
+        public Dictionary<String, Object> Properties { get; set; }
+
+        // 方法
+        public Dictionary<String, String> Methods { get; set; }
     }
 }

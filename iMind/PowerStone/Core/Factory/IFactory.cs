@@ -15,6 +15,6 @@ namespace PowerStone.Core.Factory
         Object Stone { get; }
 
         // 新建
-        StoneDesign Design { set; }
+        XmlElement XmlDesign { set; }
     }
 }
