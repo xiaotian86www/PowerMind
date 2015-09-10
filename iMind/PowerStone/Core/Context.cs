@@ -1,4 +1,5 @@
-﻿using PowerStone.Core.Factory;
+﻿using PowerStone.Core.Exception;
+using PowerStone.Core.Factory;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace PowerStone.Core
 
         public static int GetInteger(String key)
         {
+            if (!cf.Contains(key))
+                throw new ConfigNotFoundException("config:" + key + "未找到");
             return Convert.ToInt32(cf[key]);
         }
 

@@ -1,12 +1,6 @@
 ﻿using PowerStone.Core.Design;
-using PowerStone.Core.Exception;
 using PowerStone.Core.Product;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 
 namespace PowerStone.Core.Factory
 {
@@ -24,10 +18,6 @@ namespace PowerStone.Core.Factory
         {
             set
             {
-                String typeName = this.GetType().Name;
-                if (!typeName.Equals(value.Mode + "Factory"))
-                    throw new FactoryNotMatchException();
-
                 this.design = value;
             }
         }

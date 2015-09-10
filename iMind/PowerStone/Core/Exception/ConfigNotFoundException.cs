@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace PowerStone.Core.Exception
 {
-    class FactoryNotMatchException : CoreException
+    class ConfigNotFoundException : CoreException
     {
-        public FactoryNotMatchException() { }
+        public ConfigNotFoundException() { }
 
-        public FactoryNotMatchException(String message)
+        public ConfigNotFoundException(String message)
             : base(message) { }
 
-        public FactoryNotMatchException(String message, System.Exception inner)
+        public ConfigNotFoundException(String message, System.Exception inner)
             : base(message, inner) { }
     }
 }

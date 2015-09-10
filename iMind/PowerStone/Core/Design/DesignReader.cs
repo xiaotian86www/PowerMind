@@ -1,6 +1,7 @@
 ﻿using PowerStone.Core.Exception;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -16,29 +17,23 @@ namespace PowerStone.Core.Design
             StoneDesign sd = new StoneDesign();
 
             XmlElement xmle = xmln as XmlElement;
-            if (null == xmle)
-                throw new XMLNodeNotFoundException();
 
             sd.Id = xmle.GetAttribute("id");
             if (null == sd.Id)
-                throw new XMLAttributeNotFoundException("Id没有找到！");
+                throw new XMLAttributeNotFoundException("Id属性没有找到！");
 
             sd.Mode = xmle.GetAttribute("mode");
             if (null == sd.Mode)
                 sd.Mode = "Singleton";
-            
 
-            String dll = xmle.GetAttribute("dll");
-            String type = xmle.GetAttribute("type");
-            try
-            {
-                Assembly assembly = Assembly.Load(dll);
-                sd.Type = assembly.GetType(type);
-            }
-            catch (System.Exception ex)
-            {
-                throw new TypeNotFoundException("dll:" + dll + ",type:" + type + "没有找到", ex);
-            }
+            sd.Dll = xmle.GetAttribute("dll");
+            if (null == sd.Dll)
+                throw new XMLAttributeNotFoundException(sd.Id + ":dll属性没有找到！");
+            sd.Dll = sd.Dll + Context.GetString("PowerStone.Core.StonePath");
+
+            sd.Type = xmle.GetAttribute("type");
+            if (null == sd.Type)
+                throw new XMLAttributeNotFoundException(sd.Id + ":type属性没有找到！");
 
             Dictionary<String, String> attributes = new Dictionary<string,string>();
             XmlNodeList xmlnl = xmln.ChildNodes;

@@ -15,7 +15,7 @@ namespace PowerStone.Core.Design
         public Dictionary<String, String> Attributes { get; set; }
 
         // 类类型
-        public Type Type { get; set; }
+        public String Type { get; set; }
 
         // 实例化模式
         public String Mode { get; set; }
