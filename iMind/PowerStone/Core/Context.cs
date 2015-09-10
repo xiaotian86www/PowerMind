@@ -1,5 +1,4 @@
-﻿using PowerStone.Core.Design;
-using PowerStone.Core.Exception;
+﻿using PowerStone.Core.Exception;
 using PowerStone.Core.Factory;
 using System;
 using System.Collections;
@@ -20,47 +19,46 @@ namespace PowerStone.Core
 
         public static void ParseXml(String configPath)
         {
-            // 获取配置文件
-            FileInfo fi = new FileInfo(configPath);
-            if (!fi.Exists)
-            {
-                Console.WriteLine("PowerStone.xml 配置文件不存在，PowerStone 框架退出。");
-                return;
-            }
-            XmlDocument xmld = new XmlDocument();
-            xmld.Load(fi.FullName);
-            XmlNodeList xmlnl = xmld.ChildNodes;
-            foreach (XmlNode txmln in xmlnl)
-            {
-                XmlElement xmle = txmln as XmlElement;
-                String attrKey = xmle.GetAttribute("name");
-                String attrValue = xmle.InnerText;
-                Context.AddConfig(attrKey, attrValue);
-            }
-
-            // 获取Factory
             try
             {
+                // 获取配置文件
+                FileInfo fi = new FileInfo(configPath);
+                if (!fi.Exists)
+                {
+                    Console.WriteLine(configPath + "配置文件不存在，PowerStone 框架退出。");
+                    return;
+                }
+                XmlDocument xmld = new XmlDocument();
+                xmld.Load(fi.FullName);
+                foreach (XmlElement xmle in xmld.DocumentElement.ChildNodes)
+                {
+                    String attrKey = xmle.GetAttribute("key");
+                    String attrValue = xmle.InnerText;
+                    Context.AddConfig(attrKey, attrValue);
+                }
+
+                // 获取Factory
                 DirectoryInfo diri = new DirectoryInfo(Context.GetString("PowerStone.Core.DesignPath"));
                 FileInfo[] fis = diri.GetFiles();
                 foreach (FileInfo tfi in fis)
                 {
                     XmlDocument txmld = new XmlDocument();
                     txmld.Load(tfi.FullName);
-                    XmlNodeList txmlnl = txmld.ChildNodes;
-                    foreach (XmlNode txmln in txmlnl)
+                    foreach (XmlElement txmle in txmld.DocumentElement.ChildNodes)
                     {
-                        StoneDesign sd = DesignReader.Reader(txmln);
-
-                        String type = "PowerStone.Core.Factory." + sd.Mode.Substring(0, 1).ToUpper() + sd.Mode.Substring(0, sd.Mode.Length - 1).ToLower() + "Factory";
+                        String id = txmle.GetAttribute("id");
+                        String mode = txmle.GetAttribute("mode");
+                        String type = "PowerStone.Core.Factory." + mode.Substring(0, 1).ToUpper() + mode.Substring(1, mode.Length - 1).ToLower() + "Factory";
                         Type factoryType = Type.GetType(type);
                         IFactory factory = (IFactory)Activator.CreateInstance(factoryType);
-                        Context.AddFactory(sd.Id, factory);
+                        factory.XmlDesign = txmle;
+                        ct.Add(id, factory);
                     }
                 }
             }
             catch (System.Exception ex)
             {
+                Console.WriteLine(ex.StackTrace);
                 Console.WriteLine(ex.Message);
                 return;
             }
@@ -83,14 +81,12 @@ namespace PowerStone.Core
             return cf[key] as String;
         }
 
-        public static void AddFactory(String id, IFactory factory)
+        public static Object GetStone(String id)
         {
-            ct.Add(id, factory);
-        }
-
-        public static IFactory GetFactory(String id)
-        {
-            return ct[id] as IFactory;
+            IFactory fac = ct[id] as IFactory;
+            if (null == fac)
+                throw new StoneNotFoundException("id:" + id + " 没有找到。");
+            return ((IFactory)ct[id]).Stone;
         }
 
         public static void RemoveFactory(String id)

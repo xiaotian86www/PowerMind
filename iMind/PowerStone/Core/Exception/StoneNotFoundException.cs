@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace PowerStone.Core.Exception
 {
-    class XMLNodeNotFoundException : CoreException
+    class StoneNotFoundException : CoreException
     {
-        public XMLNodeNotFoundException() { }
+        public StoneNotFoundException() { }
 
-        public XMLNodeNotFoundException(String message)
+        public StoneNotFoundException(String message)
             : base(message) { }
 
-        public XMLNodeNotFoundException(String message, System.Exception inner)
+        public StoneNotFoundException(String message, System.Exception inner)
             : base(message, inner) { }
     }
 }

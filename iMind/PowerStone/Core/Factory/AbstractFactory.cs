@@ -1,5 +1,4 @@
-﻿using PowerStone.Core.Design;
-using PowerStone.Core.Exception;
+﻿using PowerStone.Core.Exception;
 using PowerStone.Core.Product;
 using System;
 using System.IO;
@@ -29,10 +28,9 @@ namespace PowerStone.Core.Factory
             {
                 StoneProduct product = new StoneProduct();
 
-                Assembly assembly = Assembly.Load(Context.GetString("PowerStone.Core.StonePath") + this.xmlDesign.GetAttribute("dll"));
+                Assembly assembly = Assembly.LoadFrom(Context.GetString("PowerStone.Core.StonePath") + "\\" + this.xmlDesign.GetAttribute("dll"));
                 Type stoneType = assembly.GetType(this.xmlDesign.GetAttribute("type"));
                 Object stone = Activator.CreateInstance(stoneType);
-                product.Stone = stone;
 
                 foreach(XmlElement xmle in this.xmlDesign.ChildNodes)
                 {
@@ -45,7 +43,15 @@ namespace PowerStone.Core.Factory
                     }
                     else if ("property".Equals(xmle.Name))
                     {
-
+                        String name = xmle.GetAttribute("name");
+                        foreach (FieldInfo fi in stoneType.GetFields())
+                        {
+                            Console.WriteLine(fi.Name);
+                        }
+                        if (xmle.HasAttribute("value"))
+                            stoneType.GetField(name).SetValue(stone, xmle.GetAttribute("value"));
+                        else if (xmle.HasAttribute("ref"))
+                            stoneType.GetField(name).SetValue(stone, Context.GetStone(xmle.GetAttribute("ref")));
                     }
 
                 }
@@ -53,7 +59,7 @@ namespace PowerStone.Core.Factory
             }
             catch (System.Exception ex)
             {
-                throw new TypeNotFoundException("dll:" + this.xmlDesign.Dll + ",type:" + this.xmlDesign.Type + "没有找到", ex);
+                throw new CannotCreateProductException("dll:" + this.xmlDesign.GetAttribute("dll") + ",type:" + this.xmlDesign.GetAttribute("type") + "创建失败", ex);
             }
         }
     }
