@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<stones>
+  <stone id="PowerMind.Stone.Book" type="Book" dll="book.dll" mode="thread" num="1">
+    <attribute name="title">Harry Potter</attribute>
+    <attribute name="author">Apollo</attribute>
+  </stone>
+</stones>

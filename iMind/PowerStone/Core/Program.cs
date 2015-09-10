@@ -47,7 +47,8 @@ namespace PowerStone.Core
                     {
                         StoneDesign sd = DesignReader.Reader(txmln);
 
-                        Type factoryType = Type.GetType("PowerStone.Core.Factory." + sd.Mode + "Factory");
+                        String type = "PowerStone.Core.Factory." + sd.Mode.Substring(0, 1).ToUpper() + sd.Mode.Substring(0, sd.Mode.Length - 1).ToLower() + "Factory";
+                        Type factoryType = Type.GetType(type);
                         IFactory factory = (IFactory)Activator.CreateInstance(factoryType);
                         Context.AddFactory(sd.Id, factory);
                     }

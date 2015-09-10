@@ -22,5 +22,8 @@ namespace PowerStone.Core.Design
 
         // dll文件名
         public String Dll { get; set; }
+
+        // 线程数量
+        public int Num { get; set; }
     }
 }

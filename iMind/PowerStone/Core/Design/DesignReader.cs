@@ -35,6 +35,16 @@ namespace PowerStone.Core.Design
             if (null == sd.Type)
                 throw new XMLAttributeNotFoundException(sd.Id + ":type属性没有找到！");
 
+            try
+            {
+                sd.Num = Convert.ToInt32(xmle.GetAttribute("num"));
+            }
+            catch (System.Exception ex)
+            {
+                throw new XMLAttributeNotFoundException(sd.Id + ":num属性没有找到，或不能转化为int类型", ex);
+            }
+            
+
             Dictionary<String, String> attributes = new Dictionary<string,string>();
             XmlNodeList xmlnl = xmln.ChildNodes;
             foreach (XmlNode txmln in xmln)
