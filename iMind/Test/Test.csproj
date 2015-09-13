@@ -48,6 +48,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\book\book.csproj">
+      <Project>{188edbe8-ffec-438f-a46b-539ffed2b089}</Project>
+      <Name>book</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PowerStone\PowerStone.csproj">
       <Project>{956552b4-86f3-441d-89e2-046817395a06}</Project>
       <Name>PowerStone</Name>

@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-
 <stones>
-  <stone id="PowerMind.Stone.Book" type="Book" dll="book.dll" mode="singleton">
-    <property name="title" value="Harry Potter"/>
-    <property name="author" ref="PowerMind.Stone.Apollo"/>
+  <stone id="PowerMind.Stone.Book" type="Book.Book" dll="book.dll" mode="singleton">
+    <property name="Title" value="Harry Potter"/>
+    <property name="Author" value="PowerMind.Stone.Apollo"/>
     <method name="ThreadMain" value="Main"/>
   </stone>
 </stones>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root key="书">
+  <node key="小说">
+    <node key="哈利波特"></node>
+    <node key="悲惨的世界"></node>
+  </node>
+  <node key="字典"></node>
+</root>

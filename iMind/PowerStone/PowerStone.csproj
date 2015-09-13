@@ -42,7 +42,6 @@
     <Content Include="Core\PowerStone.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Book.cs" />
     <Compile Include="Core\Context.cs" />
     <Compile Include="Core\Exception\StoneNotFoundException.cs" />
     <Compile Include="Core\Exception\ConfigNotFoundException.cs" />

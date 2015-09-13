@@ -14,7 +14,13 @@ namespace Test
         public static void Main(String[] args)
         {
             Context.ParseXml("text.xml");
-            Context.GetStone("PowerMind.Stone.Book");
+            Book.Book bk = (Book.Book)Context.GetStone("PowerMind.Stone.Book");
+            if (bk == null)
+            {
+                Console.WriteLine("11111");
+                return;
+            }
+            bk.Main();
         }
     }
 }

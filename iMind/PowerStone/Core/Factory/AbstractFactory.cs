@@ -31,6 +31,7 @@ namespace PowerStone.Core.Factory
                 Assembly assembly = Assembly.LoadFrom(Context.GetString("PowerStone.Core.StonePath") + "\\" + this.xmlDesign.GetAttribute("dll"));
                 Type stoneType = assembly.GetType(this.xmlDesign.GetAttribute("type"));
                 Object stone = Activator.CreateInstance(stoneType);
+                product.Stone = stone;
 
                 foreach(XmlElement xmle in this.xmlDesign.ChildNodes)
                 {
@@ -44,14 +45,10 @@ namespace PowerStone.Core.Factory
                     else if ("property".Equals(xmle.Name))
                     {
                         String name = xmle.GetAttribute("name");
-                        foreach (FieldInfo fi in stoneType.GetFields())
-                        {
-                            Console.WriteLine(fi.Name);
-                        }
                         if (xmle.HasAttribute("value"))
-                            stoneType.GetField(name).SetValue(stone, xmle.GetAttribute("value"));
+                            stoneType.GetProperty(name).SetValue(stone, xmle.GetAttribute("value"));
                         else if (xmle.HasAttribute("ref"))
-                            stoneType.GetField(name).SetValue(stone, Context.GetStone(xmle.GetAttribute("ref")));
+                            stoneType.GetProperty(name).SetValue(stone, Context.GetStone(xmle.GetAttribute("ref")));
                     }
 
                 }
