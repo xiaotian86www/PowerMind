@@ -13,12 +13,25 @@ namespace PowerMind
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(String[] args)
         {
-            Context.Load("pm1.xml");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Context context = Context.GetContext();
+
+            if (0 == args.Length)
+            {
+                context.AddXmlMind("newMind");
+                Application.Run(new MainForm("newMind"));
+            }
+            else
+            {
+                foreach (String arg in args)
+                {
+                    context.LoadXmlMind(arg);
+                    Application.Run(new MainForm(arg));
+                }
+            }
         }
     }
 }
