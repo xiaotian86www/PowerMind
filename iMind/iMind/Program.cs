@@ -1,4 +1,5 @@
 ﻿using PowerMind.Control;
+using PowerMind.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,20 +19,7 @@ namespace PowerMind
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Context context = Context.GetContext();
-
-            if (0 == args.Length)
-            {
-                context.AddXmlMind("newMind");
-                Application.Run(new MainForm("newMind"));
-            }
-            else
-            {
-                foreach (String arg in args)
-                {
-                    context.LoadXmlMind(arg);
-                    Application.Run(new MainForm(arg));
-                }
-            }
+            context.Init(args);
         }
     }
 }

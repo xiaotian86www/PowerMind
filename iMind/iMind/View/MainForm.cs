@@ -1,4 +1,5 @@
 ﻿using PowerMind.Control;
+using PowerMind.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,34 +11,29 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace PowerMind
+namespace PowerMind.View
 {
     public partial class MainForm : Form
     {
-        private String xmlMindName;
+        private PowerXml XmlMind { get; set; }
 
-        private XmlDocument xmlMind;
+        //private Context context;
 
-        private Context context;
-
-        public MainForm(String xmlMindName)
+        public MainForm(PowerXml xmlMind)
         {
-            this.xmlMindName = xmlMindName;
-            context = Context.GetContext();
-            xmlMind = context.GetXmlMind(xmlMindName);
             InitializeComponent();
+            this.XmlMind = xmlMind;
+            this.Text = XmlMind.FileName;
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
             Context con = Context.GetContext();
-            Recursion_Paint(xmlMind.DocumentElement, e);
+            Recursion_Paint(XmlMind.DocumentElement, e);
         }
 
         private void Recursion_Paint(XmlElement xe, PaintEventArgs e)
         {
-            MessageBox.Show("name:" + xe.Name + " key:" + xe.GetAttribute("key"));
-
             if (xe.HasChildNodes)
                 foreach (XmlElement txe in xe.ChildNodes)
                 {
