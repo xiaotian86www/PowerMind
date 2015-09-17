@@ -15,23 +15,28 @@ namespace PowerMind.View
 {
     public partial class MainForm : Form
     {
-        private PowerXml XmlMind { get; set; }
+        private PowerXml MindModel { get; set; }
+
+        public String MindName { get; set; }
 
         //private Context context;
 
         public MainForm(PowerXml xmlMind)
         {
             InitializeComponent();
-            this.XmlMind = xmlMind;
-            this.Text = XmlMind.FileName;
+            this.MindModel = xmlMind;
+            this.Text = MindModel.FileName;
+            this.MindName = MindModel.FileName;
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
             //MessageBox.Show("Height:" + e.ClipRectangle.Height + " Width:" + e.ClipRectangle.Width);
-            Context con = Context.GetContext();
+            Context context = Context.GetContext();
             Graphics gra = e.Graphics;
-            Recursion_Paint_Right(XmlMind.DocumentElement, gra, new Point(0, 0));
+            XmlElement root = MindModel.RootElement;
+            context.AdjustMind(MindName);
+            Recursion_Paint_Right(root, gra, new Point(0, Convert.ToInt32(root.GetAttribute("height")) / 2));
         }
 
         private void Recursion_Paint_Right(XmlElement xe, Graphics gra, Point point)
@@ -40,12 +45,16 @@ namespace PowerMind.View
 
             if (xe.HasChildNodes)
             {
-                int count = xe.ChildNodes.Count;
-                int index = 0;
+                int sum = 0;
+                foreach (XmlElement txmle in xe.ChildNodes)
+                {
+                    sum += Convert.ToInt32(txmle.GetAttribute("height"));
+                }
+                int count = 0;
                 foreach (XmlElement txe in xe.ChildNodes)
                 {
-                    Recursion_Paint_Right(txe, gra, new Point(point.X + 100, point.Y + 50 * index));
-                    index++;
+                    Recursion_Paint_Right(txe, gra, new Point(point.X + 100, count + Convert.ToInt32(txe.GetAttribute("height")) / 2));
+                    count += Convert.ToInt32(txe.GetAttribute("height"));
                 }
             }
         }

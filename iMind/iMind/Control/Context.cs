@@ -12,24 +12,31 @@ namespace PowerMind.Control
     {
         private static Context context = new Context();
 
-        private Dictionary<String, PowerXml> xmlMinds = new Dictionary<string, PowerXml>();
+        private Dictionary<String, PowerXml> mindModels = new Dictionary<string, PowerXml>();
 
         private Dictionary<String, MainForm> mindForms = new Dictionary<string, MainForm>();
 
         private Context() { }
 
-        public void Init(String[] names)
+        public void InitContext(String[] names)
         {
+            // 加载mind
             if (0 == names.Length)
             {
-                context.AddXmlMind("newMind");
+                context.AddMind("newMind");
             }
             else
             {
                 foreach (String name in names)
                 {
-                    context.LoadXmlMind(name);
+                    context.LoadMind(name);
                 }
+            }
+
+            // 创建视图
+            foreach (String mindName in mindForms.Keys)
+            {
+                Application.Run(mindForms[mindName]);
             }
         }
 
@@ -38,36 +45,48 @@ namespace PowerMind.Control
             return context;
         }
 
-        public PowerXml GetXmlMind(String name)
+        public PowerXml GetMindModel(String name)
         {
-            return xmlMinds[name];
+            return mindModels[name];
         }
 
-        public void LoadXmlMind(String xmlPath)
+        public void LoadMind(String filePath)
         {
-            FileInfo fi = new FileInfo(xmlPath);
-            if (!fi.Exists)
-                throw new FileNotFoundException(xmlPath + "文件未找到");
-            PowerXml xmlMind = new PowerXml(fi.Name);
-            xmlMind.Load(fi.FullName);
-
-            xmlMinds.Add(fi.Name, xmlMind);
-            mindForms.Add(fi.Name, new MainForm(xmlMind));
-            Application.Run(mindForms[fi.Name]);
+            PowerXml mindModel = PowerXml.LoadPowerXml(filePath);
+            mindModels.Add(mindModel.FileName, mindModel);
+            mindForms.Add(mindModel.FileName, new MainForm(mindModel));
         }
 
-        public void AddXmlMind(String xmlName)
+        public void AddMind(String mindName)
         {
-            PowerXml xmlMind = new PowerXml("NewMind");
-            XmlDeclaration xmld = xmlMind.CreateXmlDeclaration("1.0", "uft-8", null);
-            xmlMind.AppendChild(xmld);
-            XmlElement root = xmlMind.CreateElement("root");
-            root.SetAttribute("key", "中心");
-            xmlMind.AppendChild(root);
+            PowerXml mindModel = PowerXml.CreatePowerXml(mindName);
+            mindModels.Add(mindName, mindModel);
+            mindForms.Add(mindName, new MainForm(mindModel));
+        }
 
-            xmlMinds.Add(xmlName, xmlMind);
-            mindForms.Add(xmlName, new MainForm(xmlMind));
-            Application.Run(mindForms[xmlName]);
+        public void AdjustMind(String mindName)
+        {
+            PowerXml mindModel = mindModels[mindName];
+            XmlElement xmle = mindModel.RootElement;
+            xmle.SetAttribute("height", Recursion_AdjustMindModel(xmle).ToString());
+        }
+
+        private int Recursion_AdjustMindModel(XmlElement xmle)
+        {
+            int height = 0;
+            if (xmle.HasChildNodes)
+            {
+                foreach (XmlElement txmle in xmle.ChildNodes)
+                {
+                    height += Recursion_AdjustMindModel(txmle);
+                }
+            }
+            else
+                height = 50;
+
+            xmle.SetAttribute("height", height.ToString());
+
+            return height;
         }
     }
 }

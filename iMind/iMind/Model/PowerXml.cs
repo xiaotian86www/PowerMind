@@ -8,20 +8,55 @@ using System.Xml;
 
 namespace PowerMind.Model
 {
-    public class PowerXml : XmlDocument
+    public class PowerXml
     {
+        private XmlDocument xml;
+
         private bool IsModify { get; set; }
 
         private String XmlPath { get; set; }
 
         public String FileName { get; set; }
 
-        public PowerXml(String fileName)
+        public XmlElement RootElement
         {
+            get
+            {
+                return xml.DocumentElement;
+            }
+        }
+
+        private PowerXml(String fileName)
+        {
+            this.xml = new XmlDocument();
             this.FileName = fileName;
-            this.NodeChanged += PowerXml_NodeChanged;
-            this.NodeInserted += PowerXml_NodeInserted;
-            this.NodeRemoved += PowerXml_NodeRemoved;
+            xml.NodeChanged += PowerXml_NodeChanged;
+            xml.NodeInserted += PowerXml_NodeInserted;
+            xml.NodeRemoved += PowerXml_NodeRemoved;
+        }
+
+        public static PowerXml CreatePowerXml(String fileName)
+        {
+            PowerXml powerXml = new PowerXml(fileName);
+
+            XmlDeclaration xmld = powerXml.xml.CreateXmlDeclaration("1.0", "uft-8", null);
+            powerXml.xml.AppendChild(xmld);
+            XmlElement root = powerXml.xml.CreateElement("root");
+            root.SetAttribute("key", "中心");
+            powerXml.xml.AppendChild(root);
+
+            return powerXml;
+        }
+
+        public static PowerXml LoadPowerXml(String filePath)
+        {
+            FileInfo fi = new FileInfo(filePath);
+            if (!fi.Exists)
+                throw new FileNotFoundException(filePath + "文件未找到");
+            PowerXml powerXml = new PowerXml(fi.Name);
+            powerXml.xml.Load(fi.FullName);
+
+            return powerXml;
         }
 
         void PowerXml_NodeRemoved(object sender, XmlNodeChangedEventArgs e)
@@ -47,11 +82,11 @@ namespace PowerMind.Model
             }
         }
 
-        public override void Save(string filename)
+        public void Save(string filename)
         {
             FileInfo fi = new FileInfo(filename);
             if (fi.Exists && (IsModify || !fi.FullName.Equals(XmlPath)))
-                base.Save(filename);
+                xml.Save(filename);
         }
     }
 }
