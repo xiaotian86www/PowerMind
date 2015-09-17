@@ -28,17 +28,26 @@ namespace PowerMind.View
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
+            //MessageBox.Show("Height:" + e.ClipRectangle.Height + " Width:" + e.ClipRectangle.Width);
             Context con = Context.GetContext();
-            Recursion_Paint(XmlMind.DocumentElement, e);
+            Graphics gra = e.Graphics;
+            Recursion_Paint_Right(XmlMind.DocumentElement, gra, new Point(0, 0));
         }
 
-        private void Recursion_Paint(XmlElement xe, PaintEventArgs e)
+        private void Recursion_Paint_Right(XmlElement xe, Graphics gra, Point point)
         {
+            gra.DrawString(xe.GetAttribute("key"), new Font("Verdana", 20), new SolidBrush(Color.Tomato), point);
+
             if (xe.HasChildNodes)
+            {
+                int count = xe.ChildNodes.Count;
+                int index = 0;
                 foreach (XmlElement txe in xe.ChildNodes)
                 {
-                    Recursion_Paint(txe, e);
+                    Recursion_Paint_Right(txe, gra, new Point(point.X + 100, point.Y + 50 * index));
+                    index++;
                 }
+            }
         }
     }
 }
