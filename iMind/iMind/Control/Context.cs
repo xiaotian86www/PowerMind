@@ -1,7 +1,8 @@
-﻿using PowerMind.Model;
+﻿using PowerMind.Control;
 using PowerMind.View;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
@@ -68,25 +69,34 @@ namespace PowerMind.Control
         {
             PowerXml mindModel = mindModels[mindName];
             XmlElement xmle = mindModel.RootElement;
-            xmle.SetAttribute("height", Recursion_AdjustMindModel(xmle).ToString());
+
+            Point point = new Point(0, 0);
+            Recursion_AdjustMindModel(xmle, point);
         }
 
-        private int Recursion_AdjustMindModel(XmlElement xmle)
+        private Size Recursion_AdjustMindModel(XmlElement xmle, Point point)
         {
-            int height = 0;
+            // 本级区域
+            Rectangle parentRect = new Rectangle(point, new Size(50 * xmle.GetAttribute("key").Length, 50));
+            // 子集区域
+            Rectangle childRect = new Rectangle(new Point(parentRect.Left + parentRect.Width, parentRect.Top), 
+                new Size(0, 0));
+
             if (xmle.HasChildNodes)
             {
                 foreach (XmlElement txmle in xmle.ChildNodes)
                 {
-                    height += Recursion_AdjustMindModel(txmle);
+                    Size size = Recursion_AdjustMindModel(txmle, new Point(childRect.Left, childRect.Bottom));
+                    childRect.Height += size.Height;
+                    childRect.Width = size.Width > childRect.Width ? size.Width : childRect.Width;                    
                 }
             }
-            else
-                height = 50;
 
-            xmle.SetAttribute("height", height.ToString());
+            Rectangle rect = new Rectangle(parentRect.Location, 
+                new Size(parentRect.Width + childRect.Width, parentRect.Height >= childRect.Height ? parentRect.Height : childRect.Height));
+            xmle.SetAttribute("region", MindConvert.RectangleToString(rect));
 
-            return height;
+            return rect.Size;
         }
     }
 }

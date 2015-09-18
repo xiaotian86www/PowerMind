@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace PowerMind.Model
+namespace PowerMind.Control
 {
     public class PowerXml
     {
