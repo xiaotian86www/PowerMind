@@ -74,29 +74,32 @@ namespace PowerMind.Control
             Recursion_AdjustMindModel(xmle, point);
         }
 
-        private Size Recursion_AdjustMindModel(XmlElement xmle, Point point)
+        private Rectangle Recursion_AdjustMindModel(XmlElement xmle, Point point)
         {
             // 本级区域
-            Rectangle parentRect = new Rectangle(point, new Size(50 * xmle.GetAttribute("key").Length, 50));
+            Rectangle rect = new Rectangle(point, new Size(50 * xmle.GetAttribute("key").Length, 50));
             // 子集区域
-            Rectangle childRect = new Rectangle(new Point(parentRect.Left + parentRect.Width, parentRect.Top), 
+            Rectangle childRects = new Rectangle(new Point(rect.Left + rect.Width, rect.Top), 
                 new Size(0, 0));
+            // 单个子集区域
+            Rectangle childRect;
 
             if (xmle.HasChildNodes)
             {
                 foreach (XmlElement txmle in xmle.ChildNodes)
                 {
-                    Size size = Recursion_AdjustMindModel(txmle, new Point(childRect.Left, childRect.Bottom));
-                    childRect.Height += size.Height;
-                    childRect.Width = size.Width > childRect.Width ? size.Width : childRect.Width;                    
+                    childRect = Recursion_AdjustMindModel(txmle, new Point(childRects.Left, childRects.Bottom));
+                    childRects.Height += 2 * childRect.Left - childRects.Left + childRect.Height;
+                    childRects.Width = childRect.Width > childRects.Width ? childRect.Width : childRects.Width;                  
                 }
             }
+            rect.Offset(0, (childRects.Height - childRect.Height) / 2);
 
-            Rectangle rect = new Rectangle(parentRect.Location, 
-                new Size(parentRect.Width + childRect.Width, parentRect.Height >= childRect.Height ? parentRect.Height : childRect.Height));
+            //Rectangle rect = new Rectangle(parentRect.Location, 
+            //    new Size(parentRect.Width + childRect.Width, parentRect.Height >= childRect.Height ? parentRect.Height : childRect.Height));
             xmle.SetAttribute("region", MindConvert.RectangleToString(rect));
 
-            return rect.Size;
+            return rect;
         }
     }
 }
