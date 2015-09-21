@@ -18,8 +18,7 @@ namespace PowerMind
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Context context = Context.GetContext();
-            context.InitContext(args);
+            Context.InitContext(args);
         }
     }
 }

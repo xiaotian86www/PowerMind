@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Control\Context.cs" />
+    <Compile Include="Control\MindControl.cs" />
     <Compile Include="Control\MindConvert.cs" />
     <Compile Include="View\MainForm.cs">
       <SubType>Form</SubType>
@@ -100,7 +101,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="pm1.xml" />
+    <Content Include="pm1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

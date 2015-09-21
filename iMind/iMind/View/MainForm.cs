@@ -1,5 +1,4 @@
 ﻿using PowerMind.Control;
-//using PowerMind.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,40 +14,36 @@ namespace PowerMind.View
 {
     public partial class MainForm : Form
     {
-        private PowerXml MindModel { get; set; }
-
-        public String MindName { get; set; }
+        private MindControl MindControl { get; set; }
 
         //private Context context;
 
-        public MainForm(PowerXml xmlMind)
+        public MainForm(MindControl mindControl)
         {
             InitializeComponent();
-            this.MindModel = xmlMind;
-            this.Text = MindModel.FileName;
-            this.MindName = MindModel.FileName;
+            this.Text = mindControl.MindName;
+            this.MindControl = mindControl;
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            Context context = Context.GetContext();
             Graphics graphics = e.Graphics;
-            XmlElement root = MindModel.RootElement;
-            context.AdjustMind(MindName);
-            Recursion_Paint_Right(root, graphics);
+            XmlElement root = MindControl.MindModel.RootElement;
+            Recursion_Paint(root, graphics, new Point(100, 100));
         }
 
-        private void Recursion_Paint_Right(XmlElement xmle, Graphics graphics)
+        private void Recursion_Paint(XmlElement xmle, Graphics graphics, Point dpoint)
         {
             Rectangle rectangle = MindConvert.StringToRectangle(xmle.GetAttribute("region"));
             Point point = rectangle.Location;
+            point.Offset(dpoint);
             graphics.DrawString(xmle.GetAttribute("key"), new Font("Verdana", 20), new SolidBrush(Color.Tomato), point);
 
             if (xmle.HasChildNodes)
             {
                 foreach (XmlElement txe in xmle.ChildNodes)
                 {
-                    Recursion_Paint_Right(txe, graphics);
+                    Recursion_Paint(txe, graphics, dpoint);
                 }
             }
         }
