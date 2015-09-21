@@ -62,7 +62,7 @@ namespace PowerMind.Control
         {
             FileInfo fi = new FileInfo(filePath);
             if (!fi.Exists)
-                throw new FileNotFoundException(filePath + "文件未找到");
+                return CreatePowerXml(fi.Name);
             PowerXml powerXml = new PowerXml(fi);
             powerXml.xml.Load(fi.FullName);
 

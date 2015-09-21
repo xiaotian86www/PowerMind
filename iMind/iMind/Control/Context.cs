@@ -18,13 +18,13 @@ namespace PowerMind.Control
             // 加载mind
             if (0 == names.Length)
             {
-                mindControls.Add("newMind", MindControl.CreateMind("newMind"));
+                mindControls.Add("newMind", new MindControl("newMind"));
             }
             else
             {
                 foreach (String name in names)
                 {
-                    mindControls.Add(name, MindControl.LoadMind(name));
+                    mindControls.Add(name, new MindControl(name));
                 }
             }
 

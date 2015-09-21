@@ -14,38 +14,32 @@ namespace PowerMind.View
 {
     public partial class MainForm : Form
     {
-        private MindControl MindControl { get; set; }
+        private Point OriginalPoint { get; set; }
 
-        //private Context context;
-
-        public MainForm(MindControl mindControl)
+        public MainForm(String mindName)
         {
             InitializeComponent();
-            this.Text = mindControl.MindName;
-            this.MindControl = mindControl;
+            this.Text = mindName;
         }
-
-        private void MainForm_Paint(object sender, PaintEventArgs e)
-        {
-            Graphics graphics = e.Graphics;
-            XmlElement root = MindControl.MindModel.RootElement;
-            Recursion_Paint(root, graphics, new Point(100, 100));
-        }
-
-        private void Recursion_Paint(XmlElement xmle, Graphics graphics, Point dpoint)
+        public void Recursion_Paint(XmlElement xmle, Graphics graphics)
         {
             Rectangle rectangle = MindConvert.StringToRectangle(xmle.GetAttribute("region"));
             Point point = rectangle.Location;
-            point.Offset(dpoint);
-            graphics.DrawString(xmle.GetAttribute("key"), new Font("Verdana", 20), new SolidBrush(Color.Tomato), point);
+            point.Offset(OriginalPoint);
+            PaintMind(xmle.GetAttribute("key"), point, graphics);
 
             if (xmle.HasChildNodes)
             {
-                foreach (XmlElement txe in xmle.ChildNodes)
+                foreach (XmlElement txmle in xmle.ChildNodes)
                 {
-                    Recursion_Paint(txe, graphics, dpoint);
+                    Recursion_Paint(txmle, graphics);
                 }
             }
+        }
+
+        private void PaintMind(String str, Point point, Graphics graphics)
+        {
+            graphics.DrawString(str, new Font("Verdana", 20), new SolidBrush(Color.Tomato), point);
         }
     }
 }

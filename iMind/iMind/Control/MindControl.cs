@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace PowerMind.Control
@@ -17,25 +18,31 @@ namespace PowerMind.Control
 
         public MainForm MindForm { get; set; }
 
-        private MindControl() { }
-
-        public static MindControl LoadMind(String filePath)
+        public MindControl(String filePath)
         {
-            MindControl mindControl = new MindControl();
-            mindControl.MindModel = PowerXml.LoadPowerXml(filePath);
-            mindControl.MindForm = new MainForm(mindControl);
-            return mindControl;
+            this.MindModel = PowerXml.LoadPowerXml(filePath);
+            this.MindForm = new MainForm(this.MindModel.FileName);
+
+            this.MindForm.Paint += MainForm_Paint;
+
+            AdjustMind();
         }
 
-        public static MindControl CreateMind(String mindName)
+        /// <summary>
+        /// Paint事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            MindControl mindControl = new MindControl();
-            mindControl.MindModel = PowerXml.CreatePowerXml(mindName);
-            mindControl.MindForm = new MainForm(mindControl);
-            return mindControl;
-
+            Graphics graphics = e.Graphics;
+            XmlElement root = MindModel.RootElement;
+            MindForm.Recursion_Paint(root, graphics);
         }
-
+        
+        /// <summary>
+        /// 调整MindModel中各Mind的位置
+        /// </summary>
         public void AdjustMind()
         {
             XmlElement xmle = MindModel.RootElement;
@@ -47,6 +54,12 @@ namespace PowerMind.Control
             MindForm.Refresh();
         }
 
+        /// <summary>
+        /// 递归函数，根据规则依次调整每个Mind位置
+        /// </summary>
+        /// <param name="xmle">当前节点</param>
+        /// <param name="point">当前节点位置</param>
+        /// <returns>调整后当前节点大小和位置</returns>
         private Rectangle Recursion_AdjustMindModel(XmlElement xmle, Point point)
         {
             // 本级区域
@@ -71,6 +84,11 @@ namespace PowerMind.Control
             return rect;
         }
 
+        /// <summary>
+        /// 递归函数，用于移动Mind位置
+        /// </summary>
+        /// <param name="xmle">需要调整的节点</param>
+        /// <param name="dpoint">移动的方向和长度</param>
         private void Recursion_MoveMindModel(XmlElement xmle, Point dpoint)
         {
             Rectangle rectangle = MindConvert.StringToRectangle(xmle.GetAttribute("region"));
@@ -85,6 +103,11 @@ namespace PowerMind.Control
             }
         }
 
+        /// <summary>
+        /// 递归函数，用于水平翻转Mind
+        /// </summary>
+        /// <param name="xmle"></param>
+        /// <param name="x"></param>
         private void Recursion_ReverseMindModel(XmlElement xmle, int x)
         {
             Rectangle rectangle = MindConvert.StringToRectangle(xmle.GetAttribute("region"));
