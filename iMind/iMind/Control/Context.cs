@@ -72,31 +72,28 @@ namespace PowerMind.Control
 
             Point point = new Point(0, 0);
             Recursion_AdjustMindModel(xmle, point);
+            mindModel.Save();
         }
 
         private Rectangle Recursion_AdjustMindModel(XmlElement xmle, Point point)
         {
             // 本级区域
             Rectangle rect = new Rectangle(point, new Size(50 * xmle.GetAttribute("key").Length, 50));
-            // 子集区域
-            Rectangle childRects = new Rectangle(new Point(rect.Left + rect.Width, rect.Top), 
-                new Size(0, 0));
-            // 单个子集区域
-            Rectangle childRect;
+            // 下一个子集的定位点
+            Point nextChildPoint = new Point(rect.Right, rect.Top);
 
             if (xmle.HasChildNodes)
             {
                 foreach (XmlElement txmle in xmle.ChildNodes)
                 {
-                    childRect = Recursion_AdjustMindModel(txmle, new Point(childRects.Left, childRects.Bottom));
-                    childRects.Height += 2 * childRect.Left - childRects.Left + childRect.Height;
-                    childRects.Width = childRect.Width > childRects.Width ? childRect.Width : childRects.Width;                  
+                    Rectangle childRect = Recursion_AdjustMindModel(txmle, nextChildPoint);
+                    nextChildPoint.Offset(0, childRect.Top + childRect.Bottom - 2 * nextChildPoint.Y);
                 }
+                Rectangle firstChildRect = MindConvert.StringToRectangle(((XmlElement)xmle.FirstChild).GetAttribute("region"));
+                Rectangle lastChildRect = MindConvert.StringToRectangle(((XmlElement)xmle.LastChild).GetAttribute("region"));
+                rect.Offset(0, (lastChildRect.Top + firstChildRect.Top) / 2 - rect.Top);
             }
-            rect.Offset(0, (childRects.Height - childRect.Height) / 2);
-
-            //Rectangle rect = new Rectangle(parentRect.Location, 
-            //    new Size(parentRect.Width + childRect.Width, parentRect.Height >= childRect.Height ? parentRect.Height : childRect.Height));
+            
             xmle.SetAttribute("region", MindConvert.RectangleToString(rect));
 
             return rect;

@@ -41,7 +41,7 @@ namespace PowerMind.View
         private void Recursion_Paint_Right(XmlElement xmle, Graphics graphics)
         {
             Rectangle rectangle = MindConvert.StringToRectangle(xmle.GetAttribute("region"));
-            Point point = new Point(rectangle.Left, rectangle.Top);
+            Point point = rectangle.Location;
             graphics.DrawString(xmle.GetAttribute("key"), new Font("Verdana", 20), new SolidBrush(Color.Tomato), point);
 
             if (xmle.HasChildNodes)

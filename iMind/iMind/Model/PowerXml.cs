@@ -35,6 +35,16 @@ namespace PowerMind.Control
             xml.NodeRemoved += PowerXml_NodeRemoved;
         }
 
+        private PowerXml(FileInfo fileInfo)
+        {
+            this.xml = new XmlDocument();
+            this.XmlPath = fileInfo.FullName;
+            this.FileName = fileInfo.Name;
+            xml.NodeChanged += PowerXml_NodeChanged;
+            xml.NodeInserted += PowerXml_NodeInserted;
+            xml.NodeRemoved += PowerXml_NodeRemoved;
+        }
+
         public static PowerXml CreatePowerXml(String fileName)
         {
             PowerXml powerXml = new PowerXml(fileName);
@@ -53,7 +63,7 @@ namespace PowerMind.Control
             FileInfo fi = new FileInfo(filePath);
             if (!fi.Exists)
                 throw new FileNotFoundException(filePath + "文件未找到");
-            PowerXml powerXml = new PowerXml(fi.Name);
+            PowerXml powerXml = new PowerXml(fi);
             powerXml.xml.Load(fi.FullName);
 
             return powerXml;
