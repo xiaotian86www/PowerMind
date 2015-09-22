@@ -21,23 +21,10 @@ namespace PowerMind.Control
         public MindControl(String filePath)
         {
             this.MindModel = PowerXml.LoadPowerXml(filePath);
-            this.MindForm = new MainForm(this.MindModel.FileName);
+            this.MindForm = new MainForm(this.MindModel.RootElement);
 
-            this.MindForm.Paint += MainForm_Paint;
-
-            AdjustMind();
-        }
-
-        /// <summary>
-        /// Paint事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainForm_Paint(object sender, PaintEventArgs e)
-        {
-            Graphics graphics = e.Graphics;
-            XmlElement root = MindModel.RootElement;
-            MindForm.Recursion_Paint(root, graphics);
+            //AdjustMind();
+            //MindModel.Save();
         }
         
         /// <summary>
@@ -48,7 +35,8 @@ namespace PowerMind.Control
             XmlElement xmle = MindModel.RootElement;
 
             Point point = new Point(0, 0);
-            Rectangle rectangle = Recursion_AdjustMindModel(xmle, point);
+            Recursion_AdjustMindModel(xmle, point);
+            Rectangle rectangle = MindConvert.StringToRectangle(xmle.GetAttribute("region"));
             Point dpoint = new Point(point.X - rectangle.X, point.Y - rectangle.Y);
             Recursion_MoveMindModel(xmle, dpoint);
             MindForm.Refresh();
@@ -60,19 +48,21 @@ namespace PowerMind.Control
         /// <param name="xmle">当前节点</param>
         /// <param name="point">当前节点位置</param>
         /// <returns>调整后当前节点大小和位置</returns>
-        private Rectangle Recursion_AdjustMindModel(XmlElement xmle, Point point)
+        private Point Recursion_AdjustMindModel(XmlElement xmle, Point point)
         {
             // 本级区域
-            Rectangle rect = new Rectangle(point, new Size(50 * xmle.GetAttribute("key").Length, 50));
-            // 下一个子集的定位点
+            Rectangle rect = new Rectangle(point, new Size(20 * xmle.GetAttribute("key").Length, 20));
+            // 下一个子集定位点
             Point nextChildPoint = new Point(rect.Right, rect.Top);
+            // 下一个本级定位点
+            Point nextPoint = new Point(rect.Left, rect.Bottom);
 
             if (xmle.HasChildNodes)
             {
                 foreach (XmlElement txmle in xmle.ChildNodes)
                 {
-                    Rectangle childRect = Recursion_AdjustMindModel(txmle, nextChildPoint);
-                    nextChildPoint.Offset(0, childRect.Top + childRect.Bottom - 2 * nextChildPoint.Y);
+                    nextChildPoint = Recursion_AdjustMindModel(txmle, nextChildPoint);
+                    nextPoint.Y = nextChildPoint.Y;
                 }
                 Rectangle firstChildRect = MindConvert.StringToRectangle(((XmlElement)xmle.FirstChild).GetAttribute("region"));
                 Rectangle lastChildRect = MindConvert.StringToRectangle(((XmlElement)xmle.LastChild).GetAttribute("region"));
@@ -81,7 +71,7 @@ namespace PowerMind.Control
 
             xmle.SetAttribute("region", MindConvert.RectangleToString(rect));
 
-            return rect;
+            return nextPoint;
         }
 
         /// <summary>

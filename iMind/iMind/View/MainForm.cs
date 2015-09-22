@@ -14,32 +14,66 @@ namespace PowerMind.View
 {
     public partial class MainForm : Form
     {
-        private Point OriginalPoint { get; set; }
+        private bool isMouseLeftDown = false;
 
-        public MainForm(String mindName)
+        private Point mouseDownPoint = new Point();
+
+        private XmlElement mindElement;
+
+        public MainForm(XmlElement xmle)
         {
             InitializeComponent();
-            this.Text = mindName;
+            mindElement = xmle;
+            Text = xmle.GetAttribute("key");
+            Recursion_CreateMindBox(xmle);
         }
-        public void Recursion_Paint(XmlElement xmle, Graphics graphics)
+
+        private void Recursion_CreateMindBox(XmlElement xmle)
         {
-            Rectangle rectangle = MindConvert.StringToRectangle(xmle.GetAttribute("region"));
-            Point point = rectangle.Location;
-            point.Offset(OriginalPoint);
-            PaintMind(xmle.GetAttribute("key"), point, graphics);
+            this.Controls.Add(new MindBox(xmle));
 
             if (xmle.HasChildNodes)
             {
                 foreach (XmlElement txmle in xmle.ChildNodes)
                 {
-                    Recursion_Paint(txmle, graphics);
+                    Recursion_CreateMindBox(txmle);
                 }
             }
         }
 
-        private void PaintMind(String str, Point point, Graphics graphics)
+        private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
-            graphics.DrawString(str, new Font("Verdana", 20), new SolidBrush(Color.Tomato), point);
+            if (e.Button.Equals(MouseButtons.Left))
+            {
+                isMouseLeftDown = true;
+                mouseDownPoint = e.Location;
+            }
         }
+
+        private void MainForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isMouseLeftDown)
+            {
+                foreach (MindBox mindBox in Controls)
+                {
+                    Point point = mindBox.Location;
+                    point.Offset(e.X - mouseDownPoint.X, e.Y - mouseDownPoint.Y);
+                    mindBox.Location = point;
+                }
+                mouseDownPoint = e.Location;
+                //Refresh();
+            }
+        }
+
+        private void MainForm_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button.Equals(MouseButtons.Left))
+            {
+                isMouseLeftDown = false;
+                mouseDownPoint = new Point(0, 0);
+            }
+        }
+
+
     }
 }
